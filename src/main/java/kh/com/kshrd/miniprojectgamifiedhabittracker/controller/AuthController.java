@@ -1,5 +1,8 @@
 package kh.com.kshrd.miniprojectgamifiedhabittracker.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import kh.com.kshrd.miniprojectgamifiedhabittracker.dto.request.AppUserRequest;
 import kh.com.kshrd.miniprojectgamifiedhabittracker.dto.request.AuthRequest;
 import kh.com.kshrd.miniprojectgamifiedhabittracker.dto.response.APIResponse;
@@ -23,7 +26,7 @@ public class AuthController {
 
     @Operation(summary = "Register a new user", description = "Registers a new user and returns the user details upon successful registration.")
     @PostMapping("/register")
-    public ResponseEntity<APIResponse<AppUserResponse>> register(@RequestBody AppUserRequest request) {
+    public ResponseEntity<APIResponse<AppUserResponse>> register(@RequestBody @Valid AppUserRequest request) {
         APIResponse<AppUserResponse> apiResponse = APIResponse.<AppUserResponse>builder()
                 .success(true)
                 .message("User registered successfully! Please verify your email to complete the registration.")
@@ -36,7 +39,7 @@ public class AuthController {
 
     @Operation(summary = "User login", description = "Authenticates the user and provides an authentication token.")
     @PostMapping("/login")
-    public ResponseEntity<APIResponse<TokenResponse>> login(@RequestBody AuthRequest request) {
+    public ResponseEntity<APIResponse<TokenResponse>> login(@RequestBody @Valid AuthRequest request) {
         APIResponse<TokenResponse> apiResponse = APIResponse.<TokenResponse>builder()
                 .success(true)
                 .message("Login successful! Authentication token generated.")

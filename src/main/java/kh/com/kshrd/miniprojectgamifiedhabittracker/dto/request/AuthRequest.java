@@ -14,11 +14,9 @@ public class AuthRequest {
 
     @NotNull
     @NotBlank
-    @Schema(defaultValue = "sovannak")
     private String identifier;
 
     @NotNull
     @NotBlank
-    @Schema(defaultValue = "Fire@0309")
     private String password;
 }

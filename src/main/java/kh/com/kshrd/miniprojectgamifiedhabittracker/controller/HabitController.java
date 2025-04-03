@@ -54,7 +54,7 @@ public class HabitController {
 
     @Operation(summary = "Get habit by ID", description = "Fetches a specific habit by its ID.")
     @GetMapping("/{habit-id}")
-    public ResponseEntity<APIResponse<Habit>> getHabitById(@PathVariable("habit-id") @NotNull UUID habitId) {
+    public ResponseEntity<APIResponse<Habit>> getHabitById(@PathVariable("habit-id") UUID habitId) {
         APIResponse<Habit> apiResponse = APIResponse.<Habit>builder()
                 .success(true)
                 .message("Habit fetched successfully!")
@@ -67,7 +67,7 @@ public class HabitController {
 
     @Operation(summary = "Update habit by ID", description = "Updates the details of an existing habit by its ID.")
     @PutMapping("/{habit-id}")
-    public ResponseEntity<APIResponse<Habit>> updateHabitById(@PathVariable("habit-id") @NotNull UUID habitId, @RequestBody @Valid HabitRequest request) {
+    public ResponseEntity<APIResponse<Habit>> updateHabitById(@PathVariable("habit-id") UUID habitId, @RequestBody @Valid HabitRequest request) {
         APIResponse<Habit> apiResponse = APIResponse.<Habit>builder()
                 .success(true)
                 .message("Habit updated successfully!")
@@ -80,7 +80,7 @@ public class HabitController {
 
     @Operation(summary = "Delete habit by ID", description = "Deletes a habit by its ID.")
     @DeleteMapping("/{habit-id}")
-    public ResponseEntity<APIResponse<Habit>> deleteHabitById(@PathVariable("habit-id") @NotNull UUID habitId) {
+    public ResponseEntity<APIResponse<Habit>> deleteHabitById(@PathVariable("habit-id") UUID habitId) {
         habitService.deleteHabitById(habitId);
         APIResponse<Habit> apiResponse = APIResponse.<Habit>builder()
                 .success(true)
