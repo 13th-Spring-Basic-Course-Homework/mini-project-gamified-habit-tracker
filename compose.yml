@@ -1,0 +1,52 @@
+services:
+  mini-project-gamified-habit-tracker-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: mini_project_gamified_habit_tracker_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - mini-project-gamified-habit-tracker-db-data:/var/lib/postgresql/data
+    ports:
+      - "5445:5432"
+  
+  mini-project-gamified-habit-tracker-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "9085:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://mini-project-gamified-habit-tracker-db:5432/mini_project_gamified_habit_tracker_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      - mini-project-gamified-habit-tracker-db
+  
+  mini-project-gamified-habit-tracker-minio:
+    image: minio/minio:latest
+    command: minio server /var/lib/minio/data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=password
+    ports:
+      - "9005:9000"
+      - "9006:9001"
+    volumes:
+      - mini-project-gamified-habit-tracker-storage:/var/lib/minio/data
+
+  mini-project-gamified-habit-tracker-redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - mini-project-gamified-habit-tracker-redis-data:/data
+    restart: always
+    command: ["redis-server", "--requirepass", "password"]
+
+volumes:
+  mini-project-gamified-habit-tracker-storage:
+  mini-project-gamified-habit-tracker-db-data:
+  mini-project-gamified-habit-tracker-redis-data:
